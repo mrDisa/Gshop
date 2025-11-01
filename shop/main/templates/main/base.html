@@ -28,8 +28,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <!-- Логотип -->
-                <a class="navbar-brand" href="">
+                <a class="navbar-brand" href="{% url 'main:product_list'%}">
                    GShop
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -38,11 +37,9 @@
                 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <!-- Кнопка "Все товары" -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'main:product_list' %}">Все товары</a>
                         </li>
-                        <!-- Категории через цикл -->
                          <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Категории
@@ -61,14 +58,24 @@
                         </li>
                     </ul>
                     
-                    <!-- Дополнительные элементы навигации (поиск, корзина, вход) -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="#">Поиск</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Корзина</a>
-                        </li>
+                        <div class="d-flex">
+                            <a href="{% url "cart:cart_detail" %}" class="btn btn-outline-light position-relative">
+                                <i class="bi bi-cart"></i>Корзина
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {% with total_items=cart|length %}
+                                        {% if total_items > 0 %}
+                                            {{ total_items }}
+                                        {% else %}
+                                            0
+                                        {% endif %}
+                                    {% endwith %}
+                                </span>
+                            </a>
+                        </div>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Войти</a>
                         </li>
@@ -82,7 +89,6 @@
     <main class="content-wrapper">
         <div class="container mt-4">
             {% block content %}
-            <!-- Содержимое будет в дочерних шаблонах -->
             {% endblock %}
         </div>
     </main>
